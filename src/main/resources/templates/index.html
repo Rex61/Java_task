@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<big>
+<form action="/userPost" method="post">
+    <p><b>Введите ваши ФИО</b></p>
+    <p><input required type="text" name="userData" maxlength="50">
+    <p><b>Введите номер теста</b></p>
+    <p><input required type="number" name="testNum" max="999" min="1">
+    <p><input type="submit"></p>
+</form>
+</big>
+</body>
+</html>

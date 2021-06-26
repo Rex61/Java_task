@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<big>
+<strong>Тест</strong>
+<form action="#" th:action="@{/testPost}" method="post" th:object="${form}">
+
+    <div th:each ="q : ${questions}" >
+        <p th:utext="${q.text}">
+            <p> [[${q.getVariants().get(0)}]] <input type="checkbox" th:field="*{a[__${q.Wid}__].variant1}"><Br>
+            <p> [[${q.getVariants().get(1)}]] <input type="checkbox" th:field="*{a[__${q.Wid}__].variant2}"><Br>
+            <p> [[${q.getVariants().get(2)}]] <input type="checkbox" th:field="*{a[__${q.Wid}__].variant3}"><Br>
+            <p> [[${q.getVariants().get(3)}]] <input type="checkbox" th:field="*{a[__${q.Wid}__].variant4}"><Br>
+        <hr>
+        </div>
+    <p><input type="submit"></p>
+</form></big>
+
+</body>
+</html>
