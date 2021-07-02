@@ -19,6 +19,7 @@ public class MainController {
     void init(){
         service = new TestServiceImpl(dataRepo);
         service.getTestsFromDB();
+
     }
 
     @Autowired
