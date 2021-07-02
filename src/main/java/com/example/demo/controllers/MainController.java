@@ -8,25 +8,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+
 
 // TODO:
 
 @Controller
 public class MainController {
+    @PostConstruct
+    void init(){
+        service = new TestServiceImpl(dataRepo);
+        service.getTestsFromDB();
+    }
+
     @Autowired
     private JpaDataRepo dataRepo;
-
     TestServiceImpl service;
-    boolean INIT = true;
 
     @GetMapping ("/")
     public String mainPage() {
-
-        if ( INIT ) {
-            service = new TestServiceImpl(dataRepo);
-            service.getTestsFromDB();
-            INIT = false;
-        }
         return "index";
     }
     @GetMapping ("/result")
