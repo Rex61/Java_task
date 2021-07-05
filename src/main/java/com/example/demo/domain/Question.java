@@ -7,8 +7,9 @@ import java.util.List;
 @Entity
 public class Question{
     private String text;
-    private int Wid;
     // question number in the test
+    private int Wid;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Answer answer;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -18,7 +19,7 @@ public class Question{
     private long id;
     private int points;
 
-    public Question (String text , Answer answer , ArrayList<String> variants , int wid , int points){
+    public Question (String text , Answer answer , ArrayList<String> variants , int wid, int points){
         this.answer = answer;
         this.text = text;
         this.variants = variants;
