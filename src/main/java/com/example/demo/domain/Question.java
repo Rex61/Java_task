@@ -8,7 +8,7 @@ import java.util.List;
 public class Question{
     private String text;
     // question number in the test
-    private int Wid;
+    private int serialNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Answer answer;
@@ -18,13 +18,12 @@ public class Question{
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
     private int points;
-
-    public Question (String text , Answer answer , ArrayList<String> variants , int wid, int points){
+    public Question (String text , Answer answer , ArrayList<String> variants , int serialNumber, int points){
         this.answer = answer;
         this.text = text;
         this.variants = variants;
         this.points = points;
-        this.Wid = wid;
+        this.serialNumber = serialNumber;
     }
 
     public Question() {
@@ -33,16 +32,16 @@ public class Question{
 
     public void print() {
         this.answer.print();
-        System.out.println(this.Wid);
+        System.out.println(this.serialNumber);
         System.out.println(this.id);
     }
 
-    public int getWid() {
-        return Wid;
+    public int getSerialNumber() {
+        return serialNumber;
     }
 
-    public void setWid(int wid) {
-        Wid = wid;
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     public List<String> getVariants() {

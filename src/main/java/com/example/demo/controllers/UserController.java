@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class UserController {
-    @Autowired
-    private TestService service;
+    UserController(TestService service){
+        this.service = service;
+    }
+    private final TestService service;
 
     @PostConstruct
     void init(){

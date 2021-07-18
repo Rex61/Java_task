@@ -31,7 +31,6 @@ public class Test{
         int points = 0;
 
         for( int i = 0; i < this.getQuestions().size() ; i++){
-
             if (Answer.compare(this.getQuestionAnswer(i) , testForm.getA()[i])){
                 points += this.getQuestionPoints(i);
             }

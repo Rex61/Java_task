@@ -1,8 +1,7 @@
 package com.example.demo.service;
-import com.example.demo.domain.Test;
-import com.example.demo.domain.TestForm;
-import com.example.demo.repository.JpaDataRepo;
-import net.bytebuddy.matcher.CollectionOneToOneMatcher;
+import com.example.demo.domain.*;
+import com.example.demo.repository.JpaTestRepo;
+import com.example.demo.repository.JpaUserIDRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -11,17 +10,22 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TestServiceImpl implements TestService {
     //TODO:
-    @Autowired
-    private JpaDataRepo dataRepo;
-    private final ArrayList<Test> tests = new ArrayList<Test>();
 
-    public TestServiceImpl() {
-
+    TestServiceImpl(JpaTestRepo testRepo, JpaUserIDRepo userIDRepo){
+        this.userIDRepo = userIDRepo;
+        this.testRepo = testRepo;
     }
+
+    private final JpaUserIDRepo userIDRepo;
+    private final JpaTestRepo testRepo;
+    private final List<Test> tests = new ArrayList<Test>();
+
     private void setCookie (HttpServletResponse response, String name, String value, int maxAge){
         Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(maxAge);
@@ -37,9 +41,33 @@ public class TestServiceImpl implements TestService {
         return "";
     }
 
+    private void saveID(String id, String fullName, int points){
+        userIDRepo.save(new UserID(id, fullName, points));
+    }
+    @Override
+    public String findUserByID(String id, Model model){
+        Iterable<UserID> users = userIDRepo.findAll();
+        for (UserID userId : users){
+            if(userId.getId().equals(id)){
+                model.addAttribute("searchData" , "идентификатор: " + userId.getId()
+                        + "<br>ФИО: " + userId.getFullName()
+                        + "<br>очки: " + userId.getPoints());
+                return "index";
+            }
+        }
+        model.addAttribute("searchData" ,"не найдено совпадений");
+        return "index";
+    }
+
     @Override
     public void getTestsFromDB() {
-        Iterable<Test> r = dataRepo.findAll();
+//        ArrayList<String> variants = new ArrayList<>();
+//        variants.add("вариант 1");
+//        variants.add("вариант 2");
+//        variants.add("вариант 3");
+//        variants.add("вариант 4");
+//        testRepo.save(new Test(new Question("вопрос 1", new Answer(true , false, false, false), variants, 0 , 20)));
+        Iterable<Test> r = testRepo.findAll();
         tests.removeAll(tests);
         for (Test t : r ) {
             tests.add(t);
@@ -59,8 +87,15 @@ public class TestServiceImpl implements TestService {
         }
 
         if (! (findCookie(cookies, "points").equals(""))){
-            model.addAttribute("points" , findCookie(cookies, "points"));
-            model.addAttribute("userData" , findCookie(cookies, "userData"));
+            int points = Integer.parseInt(findCookie(cookies, "points"));
+            String userData = findCookie(cookies, "userData");
+
+            model.addAttribute("points" , points);
+            model.addAttribute("userData" , userData);
+
+            String id = UUID.randomUUID().toString();
+            model.addAttribute("id" , id);
+            saveID(id, userData, points);
 
             setCookie(response, "userData", "", 0);
         }

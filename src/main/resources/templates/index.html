@@ -13,6 +13,12 @@
     <p><input required type="number" name="testNum" max="999" min="1">
     <p><input type="submit"></p>
 </form>
+    <form method="post" action="/search">
+        <p><b>Поиск по идентификатору</b></p>
+        <p><input required type="text" maxlength="100" name="id"></p>
+        <p><input type="submit" value="Поиск"></p>
+    </form>
+    <td th:utext="${searchData}"></td>
 </big>
 </body>
 </html>

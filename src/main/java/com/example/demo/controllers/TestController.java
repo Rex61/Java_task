@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.domain.TestForm;
 import com.example.demo.service.TestService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class TestController {
-    @Autowired
-    private TestService service;
+    TestController(TestService service){
+        this.service = service;
+    }
+    private final TestService service;
 
     @GetMapping("/test")
     public String testPage (Model model, HttpServletRequest request) {
@@ -23,7 +24,8 @@ public class TestController {
     }
 
     @PostMapping("/testPost")
-    public String testPost (@ModelAttribute TestForm a , Model model , HttpServletResponse response, HttpServletRequest request) {
-        return service.saveResult(a , model , response, request);
+    public String testPost (@ModelAttribute TestForm testForm , Model model ,
+                            HttpServletResponse response, HttpServletRequest request) {
+        return service.saveResult(testForm , model , response, request);
     }
 }
