@@ -1,8 +1,10 @@
 package com.example.demo.service;
-import com.example.demo.domain.*;
+
+import com.example.demo.domain.Test;
+import com.example.demo.domain.TestForm;
+import com.example.demo.domain.UserID;
 import com.example.demo.repository.JpaTestRepo;
 import com.example.demo.repository.JpaUserIDRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -15,7 +17,6 @@ import java.util.UUID;
 
 @Service
 public class TestServiceImpl implements TestService {
-    //TODO:
 
     TestServiceImpl(JpaTestRepo testRepo, JpaUserIDRepo userIDRepo){
         this.userIDRepo = userIDRepo;
@@ -75,7 +76,7 @@ public class TestServiceImpl implements TestService {
         Cookie[] cookies = request.getCookies();
 
         if (findCookie(cookies, "testComplete").equals("true")){
-            setCookie(response, "testComplete", "false", 86400);
+            setCookie(response, "testComplete", "false", 3600);
         } else {
             return "redirect:/";
         }
