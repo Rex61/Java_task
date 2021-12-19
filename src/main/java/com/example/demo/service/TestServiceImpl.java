@@ -61,12 +61,6 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void getTestsFromDB() {
-//        ArrayList<String> variants = new ArrayList<>();
-//        variants.add("вариант 1");
-//        variants.add("вариант 2");
-//        variants.add("вариант 3");
-//        variants.add("вариант 4");
-//        testRepo.save(new Test(new Question("вопрос 1", new Answer(true , false, false, false), variants, 0 , 20)));
         Iterable<Test> r = testRepo.findAll();
         tests.removeAll(tests);
         for (Test t : r ) {
@@ -93,7 +87,7 @@ public class TestServiceImpl implements TestService {
             model.addAttribute("points" , points);
             model.addAttribute("userData" , userData);
 
-            String id = UUID.randomUUID().toString();
+            String id = UUID.randomUUID().toString().substring(0,10);
             model.addAttribute("id" , id);
             saveID(id, userData, points);
 
